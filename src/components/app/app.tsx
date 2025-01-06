@@ -51,6 +51,8 @@ const App = () => {
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/login'
           element={
@@ -99,6 +101,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
+          }
+        />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
@@ -107,7 +117,10 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title={''} onClose={() => navigate(-1)}>
+              <Modal
+                title={`#${location.pathname.match(/\d+/)}`}
+                onClose={() => navigate(-1)}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -124,7 +137,10 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title={''} onClose={() => navigate(-1)}>
+                <Modal
+                  title={`#${location.pathname.match(/\d+/)}`}
+                  onClose={() => navigate(-1)}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>
