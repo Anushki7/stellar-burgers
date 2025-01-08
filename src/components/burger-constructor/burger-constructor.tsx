@@ -69,7 +69,7 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(closeOrder());
-    navigate('/feed');
+    //navigate('/feed'); //после закрытия полученного заказа, чтобы оставаться на главной
   };
 
   return (

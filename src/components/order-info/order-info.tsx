@@ -72,7 +72,7 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (isOrderLoading) {
+  if (!orderInfo) {
     return <Preloader />;
   }
 
