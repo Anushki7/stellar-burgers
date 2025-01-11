@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
 import {
   getOrderDetailsByNumber,
-  ordersInfoDataSelector
+  selectOrder
 } from '../../services/slices/order-slice';
 
 export const OrderInfo: FC = () => {
@@ -14,21 +14,21 @@ export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
   const dispatch = useDispatch();
 
-  const orderData = useSelector(ordersInfoDataSelector(number || ''));
+  const orderData = useSelector(selectOrder);
 
   const ingredients: TIngredient[] = useSelector(
     (state) => state.ingredients.data
   );
 
   const isOrderLoading = useSelector(
-    (state) => state.order.isOrderHistoryLoading
+    (state) => state.order.isOrderDetailsLoading
   );
 
+  const orderId = Number(useParams().number);
+
   useEffect(() => {
-    if (number) {
-      dispatch(getOrderDetailsByNumber(+number));
-    }
-  }, [dispatch, number]);
+    dispatch(getOrderDetailsByNumber(orderId));
+  }, []);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

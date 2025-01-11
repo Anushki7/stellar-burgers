@@ -53,8 +53,8 @@ export const feedInfoSlice = createSlice({
 
 export const getFeedsThunk = createAsyncThunk('feedInfo/getfeeds', async () => {
   //получение данных с api
-  const response = await getFeedsApi();
-  return response;
+  const data = await getFeedsApi();
+  return data;
 });
 
 export const { addBun } = feedInfoSlice.actions;

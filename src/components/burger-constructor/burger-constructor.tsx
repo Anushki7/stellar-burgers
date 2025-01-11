@@ -6,7 +6,7 @@ import { RootState, useDispatch, useSelector } from '../../services/store';
 
 import {
   closeOrder,
-  getcurrentOrder,
+  selectCurrentOrder,
   initiateOrder
 } from '../../services/slices/order-slice';
 
@@ -22,7 +22,7 @@ export const BurgerConstructor: FC = () => {
 
   const { isOrderLoading } = useSelector((state: RootState) => state.order);
 
-  const orderModalData = useSelector(getcurrentOrder);
+  const orderModalData = useSelector(selectCurrentOrder);
 
   const onOrderClick = () => {
     //сделать заказ

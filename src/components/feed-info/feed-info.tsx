@@ -14,9 +14,9 @@ export const FeedInfo: FC = () => {
   /** TODO: взять переменные из стора */
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getFeedsThunk());
-  }, [dispatch]);
+  //useEffect(() => {
+  //dispatch(getFeedsThunk());
+  //}, [dispatch]);
 
   const orders: TOrder[] = useSelector((state) => state.feedInfo.orders);
   const total = useSelector((state) => state.feedInfo.total);

@@ -10,14 +10,14 @@ import {
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.order.isOrderHistoryLoading);
-  const orders = useSelector(getOrdersFeeds);
+  const loading = useSelector((state) => state.feedInfo.loading);
+  const orders = useSelector((state) => state.feedInfo.orders);
 
   useEffect(() => {
     dispatch(getFeedsThunk());
-  }, [dispatch]);
+  }, []);
 
-  if (loading || !orders.length) {
+  if (loading) {
     return <Preloader />;
   }
 
