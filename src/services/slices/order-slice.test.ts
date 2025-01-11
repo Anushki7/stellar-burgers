@@ -9,7 +9,7 @@ describe('OrderSlice', () => {
         ...initialOrderState,
         isOrderLoading: true,
         hasOrderError: false,
-        errorMessage: ''
+        errorMessage: undefined
       });
     });
   
@@ -31,7 +31,7 @@ describe('OrderSlice', () => {
         ...initialOrderState,
         isOrderLoading: false,
         hasOrderError: true,
-        errorMessage: ''
+        errorMessage: undefined
       });
     });
   

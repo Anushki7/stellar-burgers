@@ -24,10 +24,10 @@ export const burgerConstructorSlice = createSlice({
       //добавляем ингридиент
       state.ingredients.push({ ...action.payload, id: nanoid() });
     },
-    removeIngredient: (state, action: PayloadAction<string>) => {
+    removeIngredient: (state, action: PayloadAction<{ id: string }>) => {
       //удаляем ингридиент
       state.ingredients = state.ingredients.filter(
-        (item) => item.id !== action.payload
+        (item) => item.id !== action.payload.id
       );
     },
     moveIngredientUp: (state, action: PayloadAction<string>) => {
