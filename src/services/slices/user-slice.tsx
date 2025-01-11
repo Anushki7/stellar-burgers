@@ -21,7 +21,7 @@ export interface IUserState {
   error: string | null;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   // Начальное состояние
   user: null,
   isAuthChecked: false,

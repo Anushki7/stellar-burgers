@@ -8,7 +8,7 @@ export type IIngredientsState = {
   error: boolean;
 };
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   //начальное состояние
   data: [],
   loading: false,

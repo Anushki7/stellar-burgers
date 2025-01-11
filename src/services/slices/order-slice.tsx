@@ -4,7 +4,7 @@ import { orderBurgerApi, getOrdersApi, getOrderByNumberApi } from '@api';
 import { clearConstructor } from './burger-constructor-slice';
 import { RootState } from '../store';
 
-const initialOrderState: OrderState = {
+export const initialOrderState: OrderState = {
   currentOrder: null,
   orderHistory: null,
   isOrderLoading: false,
