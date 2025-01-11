@@ -1,26 +1,63 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useNavigate } from 'react-router-dom';
+import { RootState, useDispatch, useSelector } from '../../services/store';
+
+import {
+  closeOrder,
+  selectCurrentOrder,
+  initiateOrder
+} from '../../services/slices/order-slice';
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
 
-  const orderRequest = false;
+  const constructorItems = useSelector(
+    (state: RootState) => state.burgerConstructor
+  ) || { bun: null, ingredients: [] };
 
-  const orderModalData = null;
+  const { isOrderLoading } = useSelector((state: RootState) => state.order);
+
+  const orderModalData = useSelector(selectCurrentOrder);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    //сделать заказ
+    if (!user) {
+      //проверка пользователя
+      navigate('/login');
+      return;
+    }
+    if (!constructorItems.bun || isOrderLoading) {
+      //проверка выбора
+      console.warn('Булка не выбрана или заказ уже загружается.');
+      return;
+    }
+    const ingredientIds = [
+      constructorItems.bun._id,
+      ...constructorItems.ingredients.map(
+        (ingredient: TConstructorIngredient) => ingredient._id
+      ),
+      constructorItems.bun._id
+    ];
+
+    console.log('Отправляемые ID ингредиентов:', ingredientIds);
+
+    dispatch(initiateOrder(ingredientIds))
+      .unwrap()
+      .then((order) => {
+        console.log('Заказ успешно отправлен:', order);
+      })
+      .catch((error) => {
+        console.error('Ошибка при отправке заказа:', error);
+      });
   };
-  const closeOrderModal = () => {};
 
   const price = useMemo(
+    //вычисляем цену бургера
     () =>
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
       constructorItems.ingredients.reduce(
@@ -30,16 +67,21 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
+  const closeOrderModal = () => {
+    dispatch(closeOrder());
+    //navigate('/feed'); //после закрытия полученного заказа, чтобы оставаться на главной
+  };
 
   return (
-    <BurgerConstructorUI
-      price={price}
-      orderRequest={orderRequest}
-      constructorItems={constructorItems}
-      orderModalData={orderModalData}
-      onOrderClick={onOrderClick}
-      closeOrderModal={closeOrderModal}
-    />
+    <div>
+      <BurgerConstructorUI
+        price={price}
+        orderRequest={isOrderLoading}
+        constructorItems={constructorItems}
+        orderModalData={orderModalData}
+        onOrderClick={onOrderClick}
+        closeOrderModal={closeOrderModal}
+      />
+    </div>
   );
 };
